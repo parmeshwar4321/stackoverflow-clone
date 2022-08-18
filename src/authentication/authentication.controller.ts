@@ -47,7 +47,7 @@ class AuthenticationController implements Controller {
         userData
       );
       response.setHeader("Set-Cookie", [cookie]);
-      response.send(user);
+      response.send({ user, success: true });
     } catch (error) {
       next(error);
     }
@@ -68,7 +68,7 @@ class AuthenticationController implements Controller {
       if (isPasswordMatching) {
         const tokenData = this.createToken(user);
         response.setHeader("Set-Cookie", [this.createCookie(tokenData)]);
-        response.send({user, ...tokenData });
+        response.send({ user, ...tokenData, success: true });
       } else {
         next(new WrongCredentialsException());
       }
